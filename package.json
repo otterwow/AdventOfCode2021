@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "setup": "node dist/aoc.js setup",
+    "solve": "node dist/aoc.js solve",
+    "solve_dev": "nodemon dist/aoc.js solve",
     "test": "jest"
   },
   "repository": {
@@ -17,6 +20,10 @@
   },
   "homepage": "https://github.com/otterwow/aoc2021#readme",
   "dependencies": {
+    "@types/ejs": "^3.1.0",
+    "@types/got": "^9.6.12",
+    "ejs": "^3.1.6",
+    "got": "^9.6.0",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
