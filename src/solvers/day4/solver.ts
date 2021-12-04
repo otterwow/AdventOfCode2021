@@ -39,16 +39,17 @@ export default class Day4Solver extends Solver {
 
   prepare_data(data: string[]): any[] {
     const draws: any[][] = [data[0].split(",").map((x) => parseInt(x))];
-    let flat_data = data
+
+    const flat_data = data
       .splice(1)
       .map((x) => x.split(/\s+/).map((y) => parseInt(y)))
       .flat();
 
-    return draws.concat(
-      Array.from(new Array(flat_data.length / 25), (_, i) =>
-        flat_data.slice(i * 25, i * 25 + 25)
-      ).map((x) => new Board(x))
-    );
+    const boards = Array.from(new Array(flat_data.length / 25), (_, i) =>
+      flat_data.slice(i * 25, i * 25 + 25)
+    ).map((x) => new Board(x));
+
+    return draws.concat(boards);
   }
 
   part_1() {
