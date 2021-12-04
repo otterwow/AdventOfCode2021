@@ -28,6 +28,7 @@ export function read_data(
   return readFileSync(data_path)
     .toString()
     .split("\n")
+    .map((x, _) => x.trim())
     .map((x, _) => x.replace(/(\r\n|\n|\r)/gm, ""))
     .filter((x) => Boolean(x));
 }
