@@ -2,6 +2,8 @@
 
 Solutions for [Advent of Code 2021](https://adventofcode.com/2021) in Typescript
 
+Logic for day i can be found in `./src/solvers/day${i}`
+
 ----
 
 ## NPM scripts
