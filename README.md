@@ -6,6 +6,10 @@ Logic for day i can be found in `./src/solvers/day${i}`
 
 ----
 
+Disclaimer: All code was written at 6AM in the morning. This repo came at the cost of my night owl soul and many a cup of coffee. 
+
+----
+
 ## NPM scripts
 - `npm run setup -- ${day}`: download the input data and generate `.ts` solver files in the src folder
 - `npm run solve -- ${day} ${part}`: run the solver for the given day and part
