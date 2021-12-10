@@ -16,12 +16,15 @@ export default class Day9Solver extends Solver {
     ]);
   }
 
-  neighbors(i: number): number[] {
-    return [i - this.width, i + 1, i + this.width, i - 1];
-  }
+  neighbors = (i: number): number[] => [
+    i - this.width,
+    i + 1,
+    i + this.width,
+    i - 1,
+  ];
 
-  get_low_points() {
-    return R.filter(
+  get_low_points = () =>
+    R.filter(
       ([x, i]) =>
         R.all(
           (y: number) => x < y,
@@ -29,7 +32,6 @@ export default class Day9Solver extends Solver {
         ),
       R.zip(this.data, R.range(0, this.data.length))
     );
-  }
 
   part_1() {
     return R.reduce(
