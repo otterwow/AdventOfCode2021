@@ -1,19 +1,23 @@
 import * as R from "ramda";
 import Solver from "../../solver_interface";
 
-const opening_brackets = ["(", "[", "{", "<"];
-const closing_brackets = [")", "]", "}", ">"];
-const bracket_pairs = new Map(R.zip(opening_brackets, closing_brackets));
 const bracket_scores = new Map([
   ["(", 1],
-  ["[", 2],
-  ["{", 3],
-  ["<", 4],
   [")", 3],
+  ["[", 2],
   ["]", 57],
+  ["{", 3],
   ["}", 1197],
+  ["<", 4],
   [">", 25137],
 ]);
+
+const [opening_brackets, closing_brackets] = R.addIndex(R.partition)(
+  (x, i) => i % 2 == 0,
+  [...bracket_scores.keys()]
+);
+
+const bracket_pairs = new Map(R.zip(opening_brackets, closing_brackets));
 
 export default class Day10Solver extends Solver {
   constructor(data: string[]) {
