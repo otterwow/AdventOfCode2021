@@ -42,27 +42,26 @@ export default class Day9Solver extends Solver {
   }
 
   part_2() {
+    const basins = R.map(([x, i]) => {
+      const visited: Set<number> = new Set();
+      let queue: number[] = [i];
+      while (!R.isEmpty(queue)) {
+        const current_index = queue.pop()!;
+        if (visited.has(current_index) || this.data[current_index] == 9)
+          continue;
+        visited.add(current_index);
+        queue = R.concat(queue, this.neighbors(current_index));
+      }
+      return visited.size;
+    }, this.get_low_points());
+
     return R.reduce(
       (acc, x) => acc * x,
       1,
       R.slice(
         0,
         3,
-        R.sort(
-          (x: number, y: number) => y - x,
-          R.map(([x, i]) => {
-            const visited: Set<number> = new Set();
-            let queue: number[] = [i];
-            while (!R.isEmpty(queue)) {
-              const current_index = queue.pop()!;
-              if (visited.has(current_index) || this.data[current_index] == 9)
-                continue;
-              visited.add(current_index);
-              queue = R.concat(queue, this.neighbors(current_index));
-            }
-            return visited.size;
-          }, this.get_low_points())
-        )
+        R.sort((x, y) => y - x, basins)
       )
     );
   }
