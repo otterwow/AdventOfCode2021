@@ -8,6 +8,8 @@ Logic for day i can be found in `./src/solvers/day${i}`
 
 Disclaimer: All code was written at 6AM in the morning. This repo came at the cost of my night owl soul and many a cup of coffee. 
 
+I used this year's Advent of Code as an opportunity to take a journey through the lands of Typescript. As the days progress, you might notice quirks in the code that signify me becoming more comfortable with the language.
+
 ----
 
 ## NPM scripts
