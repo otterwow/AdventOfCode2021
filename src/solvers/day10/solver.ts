@@ -1,16 +1,19 @@
-import { contains, last, median, reverse, sum } from "ramda";
+import {
+  contains,
+  last,
+  median,
+  slice,
+  sum,
+  reduceRight,
+  reduceWhile,
+  map,
+  zip,
+} from "ramda";
 import Solver from "../../solver_interface";
 
 const opening_brackets = ["(", "[", "{", "<"];
 const closing_brackets = [")", "]", "}", ">"];
-
-const bracket_pairs = new Map([
-  [")", "("],
-  ["]", "["],
-  ["}", "{"],
-  [">", "<"],
-]);
-
+const bracket_pairs = new Map(zip(opening_brackets, closing_brackets));
 const bracket_scores = new Map([
   ["(", 1],
   ["[", 2],
@@ -27,45 +30,42 @@ export default class Day10Solver extends Solver {
     super(data);
   }
 
-  prepare_data(data: string[]): any[] {
-    return data.map((x) => x.split(""));
-  }
-
   part_1() {
     return sum(
       this.solve()
-        .filter((memory) => contains(last(memory), closing_brackets))
-        .map((memory) => bracket_scores.get(last(memory)!)!)
+        .filter((stack) => contains(last(stack), closing_brackets))
+        .map((stack) => bracket_scores.get(last(stack)!)!)
     );
   }
 
   part_2() {
     return median(
       this.solve()
-        .filter((memory) => contains(last(memory), opening_brackets))
-        .map((memory: string[]) =>
-          reverse(memory).reduce(
-            (acc: number, bracket: string) =>
-              acc * 5 + bracket_scores.get(bracket)!,
-            0
+        .filter((stack) => contains(last(stack), opening_brackets))
+        .map((stack: string[]) =>
+          reduceRight(
+            (bracket, acc) => acc * 5 + bracket_scores.get(bracket)!,
+            0,
+            stack
           )
         )
     );
   }
 
-  solve(): string[][] {
-    return this.data.map((line) =>
-      line.reduce(
-        (stack: string[], bracket: string, _: number, arr: string[]) => {
-          if (contains(bracket, opening_brackets)) return [...stack, bracket];
-          if (bracket_pairs.get(bracket) != stack.pop()) {
-            arr.splice(1);
-            return [bracket];
-          }
-          return stack;
-        },
-        []
-      )
+  solve() {
+    return map(
+      (line) =>
+        reduceWhile(
+          (acc, _) => contains(last(acc) || "(", opening_brackets),
+          (acc: string[], bracket: string) => {
+            if (bracket_pairs.get(last(acc)!) === bracket)
+              return slice(0, -1, acc);
+            return [...acc, bracket];
+          },
+          [],
+          line
+        ),
+      this.data
     );
   }
 }
