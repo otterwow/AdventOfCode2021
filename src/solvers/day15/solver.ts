@@ -12,32 +12,32 @@ export default class Day15Solver extends Solver {
   }
 
   part_1() {
-    return this.solve();
+    return this.solve(this.data);
   }
   part_2() {
     this.size *= 5;
     // make data wider
-    this.data = this.data.map((xs) =>
+    let data = this.data.map((xs) =>
       Array(5)
         .fill(xs)
         .map((xs, i) => xs.map((x) => ((x - 1 + i) % 9) + 1))
         .flat()
     );
     // make data taller
-    this.data = Array(5)
+    data = Array(5)
       .fill(this.data.flat())
       .map((xs, i) => xs.map((x) => ((x - 1 + i) % 9) + 1));
 
-    return this.solve();
+    return this.solve(data);
   }
 
-  solve() {
-    this.data = this.data.flat();
+  solve(data: any[]) {
+    data = data.flat();
     const graph = graph_from_grid(
-      this.data,
+      data,
       this.size,
       this.size,
-      (_, node_b) => this.data[node_b],
+      (_, node_b) => data[node_b],
       false
     );
 
