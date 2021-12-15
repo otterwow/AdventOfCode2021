@@ -92,15 +92,32 @@ export async function setup(day: number) {
   writeFileSync(`${data_dir}/sample_data.txt`, "");
 }
 
-export async function solve(day: number, part: number) {
-  console.log(`Solving for day ${day} part ${part}`);
+async function get_solver(day: number) {
   assert_day(day);
-  assert(part === 1 || part === 2, "Part must be either 1 or 2");
 
   let data = read_data(day);
 
   const Dynamic_Solver = await import(`./solvers/day${day}/solver`);
-  const solver: Solver = new Dynamic_Solver.default(data);
+  return new Dynamic_Solver.default(data);
+}
 
-  return part == 1 ? solver.part_1() : solver.part_2();
+export async function solve(
+  day: number,
+  part: number,
+  solver: Solver | null = null
+) {
+  assert(part === 1 || part === 2, "Part must be either 1 or 2");
+
+  solver = solver || (await get_solver(day));
+  console.log(`Solving for day ${day} part ${part}`);
+  return part == 1 ? solver!.part_1() : solver!.part_2();
+}
+
+export async function benchmark(day: number) {
+  const solver = await get_solver(day);
+  for (let part of [1, 2]) {
+    const startTime = performance.now();
+    await solve(day, part, solver);
+    console.log(`Milliseconds: ${performance.now() - startTime}`);
+  }
 }

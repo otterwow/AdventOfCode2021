@@ -1,4 +1,4 @@
-import { solve, setup } from "./solver_manager";
+import { solve, setup, benchmark } from "./solver_manager";
 
 (async () => {
   const action = process.argv[2].toLowerCase();
@@ -10,6 +10,9 @@ import { solve, setup } from "./solver_manager";
       break;
     case "setup":
       setup(day);
+      break;
+    case "bench":
+      benchmark(day);
       break;
   }
 })();
